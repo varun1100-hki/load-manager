@@ -1,4 +1,4 @@
-"""Rules for registering, deleting, switching ON and OFF. Restore lives in restore.py."""
+
 from datetime import datetime, timezone
 
 from restore import CAPACITY, current_load, restore_shed
@@ -61,7 +61,7 @@ def turn_on(conn, appliance_id):
 
     shed_events = []
     if needed > 0:
-        # Only strictly lower priority (bigger number) may be shed; lowest priority first.
+        
         candidates = conn.execute(
             "SELECT * FROM appliances WHERE state = 'on' AND priority > ? "
             "ORDER BY priority DESC, wattage DESC, id",
@@ -89,8 +89,6 @@ def turn_on(conn, appliance_id):
     )
     events = shed_events + [f"{a['name']} turned on"]
     if shed_events:
-        # Shedding goes lowest priority first, so it can free more than needed.
-        # Anything that still fits (e.g. a small appliance shed first) comes back.
         events += restore_shed(conn)
     return events
 

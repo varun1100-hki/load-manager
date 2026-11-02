@@ -1,5 +1,3 @@
-"""Auto-restore: bring shed appliances back when capacity frees up."""
-
 CAPACITY = 800
 
 
